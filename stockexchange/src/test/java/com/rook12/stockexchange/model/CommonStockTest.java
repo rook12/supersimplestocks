@@ -37,4 +37,13 @@ public class CommonStockTest {
         CommonStock commonStockOne = new CommonStock("TEST", 100, 100);
         assertEquals(new BigDecimal("0.0000"), commonStockOne.getDividendYield(0));
     }
+
+    @Test
+    public void getPeRatioCommonStock() {
+        int marketPrice = 123;
+        CommonStock commonStockOne = new CommonStock("TEST", 100, 100);
+        assertEquals(new BigDecimal("0.81301"), commonStockOne.getDividendYield(marketPrice));
+        //1.229997171006507
+        assertEquals(new BigDecimal("1.23000"), commonStockOne.getPeRatio(marketPrice));
+    }
 }

@@ -16,4 +16,9 @@ public class PreferredStock extends CommonStock implements Stock {
         BigDecimal dividend = fixedDividend.multiply(BigDecimal.valueOf(parValue));
         return dividend.divide(BigDecimal.valueOf(marketPrice), 5, RoundingMode.HALF_UP);
     }
+
+    @Override
+    public String getStockType() {
+        return "PREFERRED";
+    }
 }

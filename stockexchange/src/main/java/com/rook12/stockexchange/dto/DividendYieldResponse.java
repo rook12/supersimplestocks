@@ -1,4 +1,4 @@
-package com.rook12.stockexchange;
+package com.rook12.stockexchange.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

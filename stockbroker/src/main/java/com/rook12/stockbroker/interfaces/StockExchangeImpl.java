@@ -10,11 +10,16 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @Component
 public class StockExchangeImpl implements StockExchangeInterface {
+    @Override
+    public DividendYieldResponse getDividendYield(String stockSymbol, int marketPrice) {
+        return null;
+    }
 
-    private RestTemplate restTemplate;
+   /* private RestTemplate restTemplate;
 
     @Autowired
-    public StockExchangeImpl(/*RestTemplate restTemplate*/) {
+    public StockExchangeImpl(*//*RestTemplate restTemplate*//*) {
+
         this.restTemplate = new RestTemplate();
     }
 
@@ -33,5 +38,5 @@ public class StockExchangeImpl implements StockExchangeInterface {
         HttpEntity<DividendYieldResponse> response = restTemplate.getForEntity(builder.toUriString(), DividendYieldResponse.class);
 
         return response.getBody();
-    }
+    }*/
 }

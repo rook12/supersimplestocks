@@ -7,10 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class StockexchangeApplication {
-	private static final Logger logger = LoggerFactory.getLogger(StockexchangeApplication.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(StockexchangeApplication.class, args);
-        logger.info("test messages " );
 	}
 }
