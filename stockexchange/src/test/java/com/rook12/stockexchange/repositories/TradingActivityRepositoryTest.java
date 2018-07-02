@@ -2,6 +2,7 @@ package com.rook12.stockexchange.repositories;
 
 import com.rook12.stockexchange.dto.TradingActivityResponse;
 import com.rook12.stockexchange.model.TradingAction;
+import com.rook12.stockexchange.services.TradingService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -21,7 +22,7 @@ Need this runwith otherwise thenReturn will always return null
 public class TradingActivityRepositoryTest {
 
     @Mock
-    private TradingActivityRepository tradingActivityRepository;
+    private TradingService tradingActivityRepository;
 
     private Date now = new Date();
 
