@@ -1,9 +1,11 @@
 package com.rook12.stockexchange.repositories;
 
-import com.rook12.stockexchange.dto.TradingActivityResponse;
-import com.rook12.stockexchange.model.TradingAction;
+import com.rook12.stockexchange.model.Trade;
 
-import java.util.Date;
+import java.time.Duration;
 
 public interface TradingActivityRepository {
+    void save(Trade trade);
+    Iterable<Trade> findAll();
+    Iterable<Trade> findByTimeDelta(Duration duration);
 }

@@ -1,4 +1,4 @@
-package com.rook12.stockexchange.repositories;
+package com.rook12.stockexchange.services;
 
 import com.rook12.stockexchange.dto.TradingActivityResponse;
 import com.rook12.stockexchange.model.TradingAction;
@@ -19,7 +19,7 @@ Interface test
 Need this runwith otherwise thenReturn will always return null
  */
 @RunWith(MockitoJUnitRunner.class)
-public class TradingActivityRepositoryTest {
+public class TradingServiceTest {
 
     @Mock
     private TradingService tradingActivityRepository;
