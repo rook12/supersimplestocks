@@ -9,6 +9,6 @@ import java.time.LocalDateTime;
 public interface TradingService {
     Trade executeOrder(int orderId, String stockSymbol, TradingAction action, int quantity, int tradePrice);
     Trade executeOrder(int orderId, String stockSymbol, TradingAction action, int quantity, int tradePrice, LocalDateTime timeStamp);
-    BigDecimal calculateVwsp();
+    BigDecimal calculateVwsp(String stockSymbol);
     BigDecimal calculateAllShareIndex();
 }

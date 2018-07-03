@@ -1,6 +1,9 @@
 package com.rook12.stockexchange.repositories;
 
 import com.rook12.stockexchange.model.Trade;
+import com.rook12.stockexchange.services.TradingServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.time.Duration;
@@ -13,6 +16,7 @@ import java.util.stream.Collectors;
 @Repository
 public class TradingActivityRepositoryInMemoryImpl implements TradingActivityRepository {
     ArrayList<Trade> tradingActivity = new ArrayList<>();
+    private static final Logger logger = LoggerFactory.getLogger(TradingActivityRepositoryInMemoryImpl.class);
 
     /**
      * Save to repository. The broker order Id will be used as the primary key. If multiple attempts are made to insert with same key, an
@@ -27,6 +31,7 @@ public class TradingActivityRepositoryInMemoryImpl implements TradingActivityRep
         }
 
         tradingActivity.add(trade);
+        logger.info(String.format("added trade to in memory repository %s", trade.toString()));
     }
 
     @Override
