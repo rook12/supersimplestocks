@@ -3,6 +3,7 @@ package com.rook12.stockexchange.services;
 import com.rook12.stockexchange.model.Trade;
 import com.rook12.stockexchange.model.TradeBuilder;
 import com.rook12.stockexchange.model.TradingAction;
+import com.rook12.stockexchange.repositories.StockRepositoryInMemoryImpl;
 import com.rook12.stockexchange.repositories.TradingActivityRepository;
 import com.rook12.stockexchange.repositories.TradingActivityRepositoryInMemoryImpl;
 import org.junit.Test;
@@ -25,7 +26,7 @@ public class TradingServiceTest {
     //In memory repo is cheap, don't bother with Mockito
     private TradingActivityRepository repository = new TradingActivityRepositoryInMemoryImpl();
 
-    private TradingServiceImpl tradingService = new TradingServiceImpl(repository);
+    private TradingServiceImpl tradingService = new TradingServiceImpl(repository, new StockRepositoryInMemoryImpl());
 
     private LocalDateTime now = LocalDateTime.now();
 
@@ -66,7 +67,7 @@ public class TradingServiceTest {
         //100 + 130 = 230
         // 31200 / 230 = 135.65217391304347826086956521739 (rounded 135.65217)
          */
-        assertEquals(new BigDecimal("135.65217"), tradingService.calculateVwsp("POP"));
+        assertEquals(new BigDecimal("135.65217"), tradingService.calculateVwsp("POP").getVwsp());
 
     }
 
@@ -78,13 +79,18 @@ public class TradingServiceTest {
         //120 + 130 + 140 + 75 + 105 + 260 + 285 + 120 + 120 + 290 + 130 = 1775
         //trade count - 11 square root - 3.3166247903554
 
-        assertEquals(new BigDecimal("146.98568"), tradingService.calculateAllShareIndex());
+        assertEquals(new BigDecimal("146.98568"), tradingService.calculateAllShareIndex().getAllShareIndex());
+    }
+
+    @Test
+    public void simulateTradingActivityTest() {
+        tradingService.simulateTradingActivity();
     }
 
     @Test
     public void calculateAllShareIndexLargeSet() {
         bulkOrderExecute2();
-        assertEquals(new BigDecimal("130.00000"), tradingService.calculateAllShareIndex());
+        assertEquals(new BigDecimal("130.00000"), tradingService.calculateAllShareIndex().getAllShareIndex());
     }
 
     public void bulkOrderExecute2() {

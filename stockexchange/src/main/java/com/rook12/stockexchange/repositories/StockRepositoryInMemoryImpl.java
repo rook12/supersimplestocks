@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class StockRepositoryInMemoryImpl implements StockRepository {
@@ -24,5 +25,10 @@ public class StockRepositoryInMemoryImpl implements StockRepository {
         return this.stockList.stream()
                 .filter(x -> x.getSymbol().equals(symbol))
                 .findFirst().orElseThrow(() -> new IllegalArgumentException("Could not find stock with symbol " + symbol));
+    }
+
+    @Override
+    public List<Stock> findAll() {
+        return this.stockList;
     }
 }

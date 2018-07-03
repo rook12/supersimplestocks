@@ -1,9 +1,12 @@
 package com.rook12.stockexchange.controllers;
 
+import com.rook12.stockexchange.dto.CalculateAllShareIndexResponse;
+import com.rook12.stockexchange.dto.CalculateVwspResponse;
 import com.rook12.stockexchange.dto.DividendYieldResponse;
 import com.rook12.stockexchange.config.StockExchangeConfigurationProperties;
 import com.rook12.stockexchange.dto.PeRatioResponse;
 import com.rook12.stockexchange.services.DividendService;
+import com.rook12.stockexchange.services.TradingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +17,15 @@ public class StockMarketController {
     private StockExchangeConfigurationProperties configurationProperties ;
 
     DividendService dividendService;
+    TradingService tradingService;
 
     @Autowired
-    public StockMarketController(StockExchangeConfigurationProperties configurationProperties, DividendService dividendService) {
+    public StockMarketController(StockExchangeConfigurationProperties configurationProperties,
+                                 DividendService dividendService,
+                                 TradingService tradingService) {
         this.configurationProperties = configurationProperties;
         this.dividendService = dividendService;
+        this.tradingService = tradingService;
     }
 
 
@@ -39,4 +46,26 @@ public class StockMarketController {
         return dividendService.getPeRatio(stockSymbol, marketPrice);
 
     }
+
+    @GetMapping(path="/calculateVwsp")
+    public @ResponseBody
+    CalculateVwspResponse calculateVwsp(
+            @RequestParam(value="stockSymbol") String stockSymbol
+    ) {
+        return tradingService.calculateVwsp(stockSymbol);
+    }
+
+    @GetMapping(path="/calculateAllShareIndex")
+    public @ResponseBody
+    CalculateAllShareIndexResponse calculateAllShareIndex() {
+        return tradingService.calculateAllShareIndex();
+    }
+
+    @GetMapping(path="/simulateTradingActivity")
+    public @ResponseBody
+    void simulateTradingActivity() {
+        tradingService.simulateTradingActivity();
+    }
+
+
 }

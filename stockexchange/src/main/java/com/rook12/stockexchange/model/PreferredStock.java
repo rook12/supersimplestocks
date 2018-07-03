@@ -6,6 +6,16 @@ import java.math.RoundingMode;
 public class PreferredStock extends CommonStock implements Stock {
     private BigDecimal fixedDividend;
 
+    @Override
+    public String toString() {
+        return "PreferredStock{" +
+                "fixedDividend=" + fixedDividend +
+                ", parValue=" + parValue +
+                ", stockSymbol='" + stockSymbol + '\'' +
+                ", lastDividend=" + lastDividend +
+                '}';
+    }
+
     public PreferredStock(String stockSymbol, int lastDividend, int parValue, BigDecimal fixedDividend) {
         super(stockSymbol, lastDividend, parValue);
         this.fixedDividend = fixedDividend;

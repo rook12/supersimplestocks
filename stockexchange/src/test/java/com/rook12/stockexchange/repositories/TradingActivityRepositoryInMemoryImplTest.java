@@ -31,6 +31,13 @@ public class TradingActivityRepositoryInMemoryImplTest {
         assertEquals(2, repository.findAll().size());
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void saveTwoTradesSameId() {
+        TradingActivityRepositoryInMemoryImpl repository = new TradingActivityRepositoryInMemoryImpl();
+        repository.save(tradeBuilder.setBrokerOrderId(1).createTrade());
+        repository.save(tradeBuilder.setBrokerOrderId(1).createTrade());
+    }
+
     /**
      * findAll test is pretty much the same as save. Save a couple of trades, then get the count back
      */

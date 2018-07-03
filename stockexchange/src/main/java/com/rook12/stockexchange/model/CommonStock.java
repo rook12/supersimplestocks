@@ -5,13 +5,22 @@ import java.math.RoundingMode;
 
 public class CommonStock implements Stock {
     protected int parValue;
-    private String stockSymbol;
-    private int lastDividend;
+    protected String stockSymbol;
+    protected int lastDividend;
 
     public CommonStock(String stockSymbol, int lastDividend, int parValue) {
         this.stockSymbol = stockSymbol;
         this.lastDividend = lastDividend;
         this.parValue = parValue;
+    }
+
+    @Override
+    public String toString() {
+        return "CommonStock{" +
+                "parValue=" + parValue +
+                ", stockSymbol='" + stockSymbol + '\'' +
+                ", lastDividend=" + lastDividend +
+                '}';
     }
 
     @Override
