@@ -89,45 +89,37 @@ public class TradingServiceImpl implements TradingService {
         return vwsp;
     }
 
+    private void logDouble(double number) {
+        logger.info(Double.toString(number));
+    }
+
+    /**
+     * Calculate all share index using geometric mean formula
+     *
+     * NOTE: Based on the test data im using for trade price (in the region of 100), this method starts to fall over after around 100-150
+     * trades. Need to look into better way. Making the product of the trades results in very large numbers. Tried using bigdecimal, this holds
+     * the product but I can't use the pow() function on BigDecimal on a fraction (only full int)
+     * @return
+     */
     @Override
     public BigDecimal calculateAllShareIndex() {
         logger.info("calculateAllShareIndex");
         List<Trade> trades = tradingActivityRepository.findAll();
 
-
         //TODO: Probably some nicer way of doing this through a reduce function, come back to
-        BigDecimal productOfTradePrice = new BigDecimal("1");
+        double productOfTradePrice = 1;
         for (int tradePrice : trades.stream()
                      .map(Trade::getTradePrice)
                      .collect(Collectors.toList())) {
-            //logger.debug("trade price - " + Integer.toString(tradePrice));
-            //logger.debug("product before - " + productOfTradePrice.toString());
-            productOfTradePrice = productOfTradePrice.multiply(BigDecimal.valueOf(tradePrice));
-            //logger.debug("product after - " + productOfTradePrice.toString());
+            productOfTradePrice*=tradePrice;
         }
-        //MathContext.
-        logger.info("productOfTradePrice - " + productOfTradePrice.toString());
+        logger.info("productOfTradePrice - " + Double.toString(productOfTradePrice));
 
-        logger.info("productOfTradePrice - " + productOfTradePrice.doubleValue());
-
-        /*logger.info("double max - " + Double.MAX_VALUE);
-        BigDecimal x = productOfTradePrice.pow(11);
-        logger.info("x - " + x.toString());*/
-        double x = Math.pow(productOfTradePrice.doubleValue(), 1.0 / trades.size());
-
-        //productOfTradePrice.pow
+        double geometricMean = Math.pow(productOfTradePrice, 1.0 / trades.size());
+        BigDecimal bd = new BigDecimal(Double.toString(geometricMean)).setScale(5, BigDecimal.ROUND_HALF_UP);
+        logger.info("geometricMean - " + bd.toString());
+        return bd;
 
 
-        logger.info("x - " + Double.toString(x));
-
-      /*  double squareRootOfTradeCount = Math.sqrt(trades.size());
-        logger.info(String.format("trade count - %s square root - %s",
-                Integer.toString(trades.size()),
-                Double.toString(squareRootOfTradeCount)));*/
-
-        //Geometric mean
-        //
-
-        return null;
     }
 }

@@ -71,15 +71,29 @@ public class TradingServiceTest {
     }
 
     @Test
-    public void calculateAllShareIndex() {
+    public void calculateAllShareIndexSmallSet() {
         bulkOrderExecute();
 
         //productOfTradePrice
         //120 + 130 + 140 + 75 + 105 + 260 + 285 + 120 + 120 + 290 + 130 = 1775
         //trade count - 11 square root - 3.3166247903554
 
-        assertEquals(new BigDecimal("215.87075"), tradingService.calculateAllShareIndex());
+        assertEquals(new BigDecimal("146.98568"), tradingService.calculateAllShareIndex());
     }
+
+    @Test
+    public void calculateAllShareIndexLargeSet() {
+        bulkOrderExecute2();
+        assertEquals(new BigDecimal("130.00000"), tradingService.calculateAllShareIndex());
+    }
+
+    public void bulkOrderExecute2() {
+        for (int i = 1; i < 100; i++) {
+            tradingService.executeOrder(i, "POP", TradingAction.BUY, 342, 130, now);
+        }
+    }
+
+
 
     private void bulkOrderExecute() {
         tradingService.executeOrder(1, "TEA", TradingAction.BUY, 88, 120, now);
@@ -95,9 +109,6 @@ public class TradingServiceTest {
         tradingService.executeOrder(10, "JOE", TradingAction.BUY, 345, 290, now.minusMinutes(30));
         tradingService.executeOrder(11, "POP", TradingAction.BUY, 342, 130, now.minusMinutes(30));
 
-        /*for (int i = 12; i < 750; i++) {
-            tradingService.executeOrder(i, "POP", TradingAction.BUY, 342, 130, now);
 
-        }*/
     }
 }
