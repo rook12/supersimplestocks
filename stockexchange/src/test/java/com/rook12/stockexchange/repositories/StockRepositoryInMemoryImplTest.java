@@ -5,9 +5,9 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class StockRepositoryImplTest {
+public class StockRepositoryInMemoryImplTest {
 
-    private StockRepositoryImpl repository = new StockRepositoryImpl();
+    private StockRepositoryInMemoryImpl repository = new StockRepositoryInMemoryImpl();
 
     @Test
     public void findBySymbol() {

@@ -9,10 +9,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 @Repository
-public class StockRepositoryImpl implements StockRepository {
+public class StockRepositoryInMemoryImpl implements StockRepository {
     private ArrayList<Stock> stockList = new ArrayList<>();
 
-    public StockRepositoryImpl() {
+    public StockRepositoryInMemoryImpl() {
         this.stockList.add(new CommonStock("TEA", 0, 100));
         this.stockList.add(new CommonStock("POP", 8, 100));
         this.stockList.add(new CommonStock("ALE", 23, 60));

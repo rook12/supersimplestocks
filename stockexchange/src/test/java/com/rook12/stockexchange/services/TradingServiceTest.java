@@ -1,13 +1,17 @@
 package com.rook12.stockexchange.services;
 
 import com.rook12.stockexchange.dto.TradingActivityResponse;
+import com.rook12.stockexchange.model.Trade;
+import com.rook12.stockexchange.model.TradeBuilder;
 import com.rook12.stockexchange.model.TradingAction;
 import com.rook12.stockexchange.services.TradingService;
+import org.apache.tomcat.jni.Local;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -24,29 +28,30 @@ public class TradingServiceTest {
     @Mock
     private TradingService tradingActivityRepository;
 
-    private Date now = new Date();
+    private LocalDateTime now = LocalDateTime.now();
 
-    TradingActivityResponse mockResponse = new TradingActivityResponse(now,
-            UUID.randomUUID(),
-            "TEA",
-            12345,
-            TradingAction.BUY,
-            100,
-            120
-            );
+    Trade mockResponse = new TradeBuilder()
+            .setBrokerOrderId(12345)
+            .setExchangeTradeId(UUID.randomUUID())
+            .setQuantity(100)
+            .setStockSymbol("TEA")
+            .setTimestamp(now)
+            .setTradePrice(120)
+            .setTradingAction(TradingAction.BUY)
+            .createTrade();
 
     @Test
     public void executeOrder() {
         when(tradingActivityRepository.executeOrder(12345, "TEA", TradingAction.BUY, 100, 120))
                 .thenReturn(mockResponse);
 
-        TradingActivityResponse activityResponse = tradingActivityRepository.executeOrder(12345,
+        Trade trade = tradingActivityRepository.executeOrder(12345,
                 "TEA",
                 TradingAction.BUY,
                 100,
                 120);
 
-        assertEquals("TEA", activityResponse.getStockSymbol());
+        assertEquals("TEA", trade.getStockSymbol());
     }
 
     @Test
@@ -54,13 +59,13 @@ public class TradingServiceTest {
         when(tradingActivityRepository.executeOrder(12345, "TEA", TradingAction.BUY, 100, 120, now))
                 .thenReturn(mockResponse);
 
-        TradingActivityResponse activityResponse = tradingActivityRepository.executeOrder(12345,
+        Trade trade = tradingActivityRepository.executeOrder(12345,
                 "TEA",
                 TradingAction.BUY,
                 100,
                 120,
                 now);
 
-        assertEquals(now.getTime(), now.getTime());
+        assertEquals(now.getMinute(), now.getMinute());
     }
 }

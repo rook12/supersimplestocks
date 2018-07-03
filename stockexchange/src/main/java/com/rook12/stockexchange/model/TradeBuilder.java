@@ -1,10 +1,11 @@
 package com.rook12.stockexchange.model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
 public class TradeBuilder {
-    private Date timestamp;
+    private LocalDateTime timestamp;
     private UUID exchangeTradeId;
     private String stockSymbol;
     private int brokerOrderId;
@@ -12,7 +13,7 @@ public class TradeBuilder {
     private int quantity;
     private int tradePrice;
 
-    public TradeBuilder setTimestamp(Date timestamp) {
+    public TradeBuilder setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
         return this;
     }

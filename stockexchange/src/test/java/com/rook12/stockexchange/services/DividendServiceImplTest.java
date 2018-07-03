@@ -2,7 +2,7 @@ package com.rook12.stockexchange.services;
 
 import com.rook12.stockexchange.dto.DividendYieldResponse;
 import com.rook12.stockexchange.dto.PeRatioResponse;
-import com.rook12.stockexchange.repositories.StockRepositoryImpl;
+import com.rook12.stockexchange.repositories.StockRepositoryInMemoryImpl;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 public class DividendServiceImplTest {
 
     //Using real stock repository for test (instead of mock) as its in memory and cheap
-    private StockRepositoryImpl stockRepository = new StockRepositoryImpl();
+    private StockRepositoryInMemoryImpl stockRepository = new StockRepositoryInMemoryImpl();
     private DividendService dividendService = new DividendServiceImpl(stockRepository);
 
     @Test
