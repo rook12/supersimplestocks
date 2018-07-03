@@ -14,31 +14,20 @@ public class TradingActivityRepositoryInMemoryImplTest {
 
     private LocalDateTime now = LocalDateTime.now();
 
-    private Trade exampleTradeNow = new TradeBuilder()
+    private TradeBuilder tradeBuilder = new TradeBuilder()
             .setTradingAction(TradingAction.BUY)
             .setTimestamp(now)
             .setStockSymbol("TEST")
             .setQuantity(100)
-            .setBrokerOrderId(12334)
             .setTradePrice(110)
-            .setExchangeTradeId(UUID.randomUUID())
-            .createTrade();
+            .setExchangeTradeId(UUID.randomUUID());
 
-    private Trade exampleTradeInPast = new TradeBuilder()
-            .setTradingAction(TradingAction.BUY)
-            .setTimestamp(now.minusMinutes(30))
-            .setStockSymbol("TEST")
-            .setQuantity(100)
-            .setBrokerOrderId(12334)
-            .setTradePrice(110)
-            .setExchangeTradeId(UUID.randomUUID())
-            .createTrade();
 
     @Test
     public void save() {
         TradingActivityRepositoryInMemoryImpl repository = new TradingActivityRepositoryInMemoryImpl();
-        repository.save(exampleTradeNow);
-        repository.save(exampleTradeNow);
+        repository.save(tradeBuilder.setBrokerOrderId(1).createTrade());
+        repository.save(tradeBuilder.setBrokerOrderId(2).createTrade());
         assertEquals(2, repository.findAll().size());
     }
 
@@ -48,21 +37,32 @@ public class TradingActivityRepositoryInMemoryImplTest {
     @Test
     public void findAll() {
         TradingActivityRepositoryInMemoryImpl repository = new TradingActivityRepositoryInMemoryImpl();
-        repository.save(exampleTradeNow);
-        repository.save(exampleTradeNow);
+        repository.save(tradeBuilder.setBrokerOrderId(1).createTrade());
+        repository.save(tradeBuilder.setBrokerOrderId(2).createTrade());
         assertEquals(2, repository.findAll().size());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void findByBrokerOrderIdFail() {
+        TradingActivityRepositoryInMemoryImpl repository = new TradingActivityRepositoryInMemoryImpl();
+        repository.save(tradeBuilder.setBrokerOrderId(1).createTrade());
+        repository.findByBrokerOrderId(12345);
+    }
+
+    @Test
+    public void findByBrokerOrderId() {
+        TradingActivityRepositoryInMemoryImpl repository = new TradingActivityRepositoryInMemoryImpl();
+        repository.save(tradeBuilder.setBrokerOrderId(1).createTrade());
+        assertEquals(1, repository.findByBrokerOrderId(1).getBrokerOrderId());
     }
 
     @Test
     public void findTradesAfterTime() {
         TradingActivityRepositoryInMemoryImpl repository = new TradingActivityRepositoryInMemoryImpl();
-        repository.save(exampleTradeNow);
-        repository.save(exampleTradeNow);
-        repository.save(exampleTradeNow);
-        repository.save(exampleTradeNow);
-        repository.save(exampleTradeInPast);
-        repository.save(exampleTradeInPast);
-        repository.save(exampleTradeInPast);
-        assertEquals(4, repository.findTradesAfterTime(now.minusMinutes(15)).size());
+        repository.save(tradeBuilder.setBrokerOrderId(1).createTrade());
+        repository.save(tradeBuilder.setBrokerOrderId(2).createTrade());
+        repository.save(tradeBuilder.setTimestamp(now.minusMinutes(30)).setBrokerOrderId(3).createTrade());
+        repository.save(tradeBuilder.setTimestamp(now.minusMinutes(30)).setBrokerOrderId(4).createTrade());
+        assertEquals(2, repository.findTradesAfterTime(now.minusMinutes(15)).size());
     }
 }

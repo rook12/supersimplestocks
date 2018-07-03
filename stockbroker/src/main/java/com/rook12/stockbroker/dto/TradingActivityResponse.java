@@ -1,6 +1,6 @@
-package com.rook12.stockexchange.dto;
+package com.rook12.stockbroker.dto;
 
-import com.rook12.stockexchange.model.TradingAction;
+//import com.rook12.stockexchange.model.TradingAction;
 
 import java.util.Date;
 import java.util.UUID;
@@ -10,7 +10,7 @@ public class TradingActivityResponse {
     private UUID exchangeTradeId = UUID.randomUUID();
     private String stockSymbol;
     private int brokerOrderId;
-    private TradingAction tradingAction;
+   /* private TradingAction tradingAction;
     private int quantity;
     private int tradePrice;
 
@@ -22,9 +22,9 @@ public class TradingActivityResponse {
         this.tradingAction = tradingAction;
         this.quantity = quantity;
         this.tradePrice = tradePrice;
-    }
+    }*/
 
-    public String getStockSymbol() {
+   /* public String getStockSymbol() {
         return stockSymbol;
     }
 
@@ -63,9 +63,9 @@ public class TradingActivityResponse {
 
     public void setBrokerOrderId(int brokerOrderId) {
         this.brokerOrderId = brokerOrderId;
-    }
+    }*/
 
-    public TradingAction getTradingAction() {
+   /* public TradingAction getTradingAction() {
         return tradingAction;
     }
 
@@ -87,6 +87,6 @@ public class TradingActivityResponse {
 
     public void setTradePrice(int tradePrice) {
         this.tradePrice = tradePrice;
-    }
+    }*/
 
 }

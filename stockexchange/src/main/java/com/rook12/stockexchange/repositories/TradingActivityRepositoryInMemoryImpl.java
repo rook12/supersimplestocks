@@ -14,14 +14,32 @@ import java.util.stream.Collectors;
 public class TradingActivityRepositoryInMemoryImpl implements TradingActivityRepository {
     ArrayList<Trade> tradingActivity = new ArrayList<>();
 
+    /**
+     * Save to repository. The broker order Id will be used as the primary key. If multiple attempts are made to insert with same key, an
+     * @param trade - Trade object
+     */
     @Override
     public void save(Trade trade) {
+        boolean tradeAlreadyExists = tradingActivity.stream()
+                .anyMatch(x -> x.getBrokerOrderId() == trade.getBrokerOrderId());
+        if (tradeAlreadyExists) {
+            throw new IllegalArgumentException("Trade with broker order ID already exists - "  + Integer.toString(trade.getBrokerOrderId()));
+        }
+
         tradingActivity.add(trade);
     }
 
     @Override
     public List<Trade> findAll() {
         return tradingActivity;
+    }
+
+    @Override
+    public Trade findByBrokerOrderId(int orderId) {
+        return tradingActivity.stream()
+                .filter(x -> x.getBrokerOrderId() == orderId)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Could not find order with id " + Integer.toString(orderId)));
     }
 
     @Override

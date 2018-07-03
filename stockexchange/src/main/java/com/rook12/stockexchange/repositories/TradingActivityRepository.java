@@ -10,5 +10,6 @@ import java.util.List;
 public interface TradingActivityRepository {
     void save(Trade trade);
     List<Trade> findAll();
+    Trade findByBrokerOrderId(int orderId);
     List<Trade> findTradesAfterTime(LocalDateTime localDateTime);
 }

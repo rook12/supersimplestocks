@@ -1,17 +1,15 @@
 package com.rook12.stockexchange.services;
 
-import com.rook12.stockexchange.dto.TradingActivityResponse;
 import com.rook12.stockexchange.model.Trade;
 import com.rook12.stockexchange.model.TradeBuilder;
 import com.rook12.stockexchange.model.TradingAction;
 import com.rook12.stockexchange.repositories.TradingActivityRepository;
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,9 +30,9 @@ public class TradingServiceImpl implements TradingService {
     }
 
     /**
-     * Execute a trade. Note that this works blindly, it does not validate whether there are stocks available to buy.
+     * Execute a trade.
      *
-     * @param orderId Broker order ID
+     * @param orderId Broker order ID - this should be unique
      * @param stockSymbol Symbol
      * @param action BUY or SELL
      * @param quantity Quantity
@@ -54,14 +52,20 @@ public class TradingServiceImpl implements TradingService {
                 .setTradingAction(action)
                 .createTrade();
         tradingActivityRepository.save(trade);
-        return trade;
+        return tradingActivityRepository.findByBrokerOrderId(orderId);
     }
 
     @Override
     public BigDecimal calculateVwsp() {
+        //Σ = Sigma = which means sum
         LocalDateTime oldestTradeTime = LocalDateTime.now().minusMinutes(VWSP_MINUTES);
         List<Trade> trades = tradingActivityRepository.findTradesAfterTime(oldestTradeTime);
-        return null;
+
+        int totalSumOfTradesTimesQuantity = trades.stream().mapToInt(trade -> (trade.getTradePrice() * trade.getQuantity())).sum();
+        int totalQuantity = trades.stream().mapToInt(trade -> (trade.getQuantity())).sum();
+
+        return BigDecimal.valueOf(totalSumOfTradesTimesQuantity)
+                .divide(BigDecimal.valueOf(totalQuantity), 5, RoundingMode.HALF_UP);
     }
 
     @Override
