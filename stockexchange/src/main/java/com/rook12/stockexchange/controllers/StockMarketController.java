@@ -60,10 +60,11 @@ public class StockMarketController {
         return tradingService.calculateAllShareIndex();
     }
 
-    @PostMapping(path="/simulateTradingActivity")
+    @GetMapping(path="/simulateTrades")
     public @ResponseBody
-    void simulateTradingActivity() {
+    boolean simulateTradingActivity() {
         tradingService.simulateTradingActivity();
+        return true;
     }
 
     @PostMapping(path="/executeOrder")

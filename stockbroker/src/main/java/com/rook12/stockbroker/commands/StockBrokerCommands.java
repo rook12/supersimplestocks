@@ -14,20 +14,20 @@ import org.springframework.shell.standard.ShellOption;
 @ShellComponent
 public class StockBrokerCommands {
 
-    private StockExchangeService exchangeInterface;
+    private StockExchangeService exchangeService;
 
     private int orderId = 0;
 
     private static final Logger logger = LoggerFactory.getLogger(StockBrokerCommands.class);
 
     @Autowired
-    public StockBrokerCommands(StockExchangeService exchangeInterface) {
-        this.exchangeInterface = exchangeInterface;
+    public StockBrokerCommands(StockExchangeService exchangeService) {
+        this.exchangeService = exchangeService;
     }
 
     @ShellMethod("Calculate dividend yield")
     public String calculateDividendYield(String stockSymbol, int marketPrice) {
-        DividendYieldResponse dividendYieldResponse = exchangeInterface.getDividendYield(stockSymbol, marketPrice);
+        DividendYieldResponse dividendYieldResponse = exchangeService.getDividendYield(stockSymbol, marketPrice);
         logger.info(dividendYieldResponse.toString());
         return dividendYieldResponse.getDividendYield().toString();
     }
@@ -43,13 +43,19 @@ public class StockBrokerCommands {
         //Just increment it after each order and hold in memory. Will be lost on app restart, so if you've executed orders you'll want
         //to restart stock exchange app as well
         orderId += 1;
-        TradeResponse response = exchangeInterface.executeTrade(orderId, stockSymbol, orderAction, quantity, tradePrice);
+        TradeResponse response = exchangeService.executeTrade(orderId, stockSymbol, orderAction, quantity, tradePrice);
         return response.toString();
     }
 
     @ShellMethod("Calculate Volume Weighted Stock Price")
     public String calculateVWSP(String stockSymbol, @ShellOption(defaultValue = "15") int timePeriod) {
         return Integer.toString(timePeriod);
+    }
+
+    @ShellMethod("Instruct stock market to simulate 100 trades with pseudo-random values")
+    public String simulateTrades() {
+        exchangeService.simulateTrades();
+        return "finished simulating trades";
     }
 
     @ShellMethod("Calculate all share index")
