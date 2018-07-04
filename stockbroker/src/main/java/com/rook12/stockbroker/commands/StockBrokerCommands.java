@@ -48,8 +48,9 @@ public class StockBrokerCommands {
     }
 
     @ShellMethod("Calculate Volume Weighted Stock Price")
-    public String calculateVWSP(String stockSymbol, @ShellOption(defaultValue = "15") int timePeriod) {
-        return Integer.toString(timePeriod);
+    public String calculateVWSP(String stockSymbol) {
+
+        return null;
     }
 
     @ShellMethod("Instruct stock market to simulate 100 trades with pseudo-random values")
