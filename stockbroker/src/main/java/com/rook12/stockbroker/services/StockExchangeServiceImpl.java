@@ -1,7 +1,6 @@
 package com.rook12.stockbroker.services;
 
 import com.rook12.stockbroker.model.OrderAction;
-import com.rook12.stockbroker.dto.DividendYieldRequest;
 import com.rook12.stockbroker.dto.DividendYieldResponse;
 import com.rook12.stockbroker.dto.TradeRequest;
 import com.rook12.stockbroker.dto.TradeResponse;
@@ -23,9 +22,6 @@ public class StockExchangeServiceImpl implements StockExchangeService {
     @Override
     public DividendYieldResponse getDividendYield(String stockSymbol, int marketPrice) {
         logger.info(String.format("calculating dividend yield for %s at price %s", stockSymbol, marketPrice));
-        DividendYieldRequest yieldRequest = new DividendYieldRequest();
-        yieldRequest.setMarketPrice(marketPrice);
-        yieldRequest.setStockSymbol(stockSymbol);
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(apiBaseUrl + "/calculateDividendYield")
                 .queryParam("stockSymbol", stockSymbol)
@@ -60,28 +56,4 @@ public class StockExchangeServiceImpl implements StockExchangeService {
         return response.getBody();
     }
 
-   /* private RestTemplate restTemplate;
-
-    @Autowired
-    public StockExchangeImpl(*//*RestTemplate restTemplate*//*) {
-
-        this.restTemplate = new RestTemplate();
-    }
-
-    @Override
-    public DividendYieldResponse getDividendYield(String stockSymbol, int marketPrice) {
-        DividendYieldRequest yieldRequest = new DividendYieldRequest();
-        yieldRequest.setMarketPrice(marketPrice);
-        yieldRequest.setStockSymbol(stockSymbol);
-
-
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/api/calculateDividendYield")
-                .queryParam("stockSymbol", stockSymbol)
-                .queryParam("marketPrice", marketPrice);
-
-        //RestTemplate will quietly not send data in request body in the case of a GET
-        HttpEntity<DividendYieldResponse> response = restTemplate.getForEntity(builder.toUriString(), DividendYieldResponse.class);
-
-        return response.getBody();
-    }*/
 }

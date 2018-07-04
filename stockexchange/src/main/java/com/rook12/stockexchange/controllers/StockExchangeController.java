@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping(path="/api")
-public class StockMarketController {
+public class StockExchangeController {
     private StockExchangeConfigurationProperties configurationProperties ;
 
     DividendService dividendService;
     TradingService tradingService;
 
     @Autowired
-    public StockMarketController(StockExchangeConfigurationProperties configurationProperties,
-                                 DividendService dividendService,
-                                 TradingService tradingService) {
+    public StockExchangeController(StockExchangeConfigurationProperties configurationProperties,
+                                   DividendService dividendService,
+                                   TradingService tradingService) {
         this.configurationProperties = configurationProperties;
         this.dividendService = dividendService;
         this.tradingService = tradingService;
