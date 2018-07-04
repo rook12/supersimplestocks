@@ -1,13 +1,12 @@
 package com.rook12.stockexchange.controllers;
 
-import com.rook12.stockexchange.dto.CalculateAllShareIndexResponse;
-import com.rook12.stockexchange.dto.CalculateVwspResponse;
-import com.rook12.stockexchange.dto.DividendYieldResponse;
+import com.rook12.stockexchange.dto.*;
 import com.rook12.stockexchange.config.StockExchangeConfigurationProperties;
-import com.rook12.stockexchange.dto.PeRatioResponse;
+import com.rook12.stockexchange.model.Trade;
 import com.rook12.stockexchange.services.DividendService;
 import com.rook12.stockexchange.services.TradingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -61,11 +60,23 @@ public class StockMarketController {
         return tradingService.calculateAllShareIndex();
     }
 
-    @GetMapping(path="/simulateTradingActivity")
+    @PostMapping(path="/simulateTradingActivity")
     public @ResponseBody
     void simulateTradingActivity() {
         tradingService.simulateTradingActivity();
     }
 
+    @PostMapping(path="/executeOrder")
+    @ResponseStatus(HttpStatus.CREATED)
+    public @ResponseBody
+    Trade executeOrder(
+            @RequestBody OrderRequest orderRequest
+    ) {
+        return tradingService.executeOrder(orderRequest.getOrderId(),
+                orderRequest.getStockSymbol(),
+                orderRequest.getAction(),
+                orderRequest.getQuantity(),
+                orderRequest.getTradePrice());
+    }
 
 }

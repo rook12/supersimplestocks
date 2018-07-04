@@ -2,43 +2,20 @@ package com.rook12.stockbroker.dto;
 
 //import com.rook12.stockexchange.model.TradingAction;
 
+import com.rook12.stockbroker.model.OrderAction;
+
 import java.util.Date;
 import java.util.UUID;
 
-public class TradingActivityResponse {
+public class TradeResponse {
     private Date timestamp;
     private UUID exchangeTradeId = UUID.randomUUID();
     private String stockSymbol;
     private int brokerOrderId;
-   /* private TradingAction tradingAction;
-    private int quantity;
-    private int tradePrice;
-
-    public TradingActivityResponse(Date timestamp, UUID exchangeTradeId, String stockSymbol, int brokerOrderId, TradingAction tradingAction, int quantity, int tradePrice) {
-        this.timestamp = timestamp;
-        this.exchangeTradeId = exchangeTradeId;
-        this.stockSymbol = stockSymbol;
-        this.brokerOrderId = brokerOrderId;
-        this.tradingAction = tradingAction;
-        this.quantity = quantity;
-        this.tradePrice = tradePrice;
-    }*/
-
-   /* public String getStockSymbol() {
-        return stockSymbol;
-    }
-
-    public void setStockSymbol(String stockSymbol) {
-        this.stockSymbol = stockSymbol;
-    }
-
-    public UUID getExchangeTradeId() {
-        return exchangeTradeId;
-    }
 
     @Override
     public String toString() {
-        return "TradingActivityResponse{" +
+        return "Trade Executed with properties - {" +
                 "timestamp=" + timestamp +
                 ", exchangeTradeId=" + exchangeTradeId +
                 ", stockSymbol='" + stockSymbol + '\'' +
@@ -57,19 +34,35 @@ public class TradingActivityResponse {
         this.timestamp = timestamp;
     }
 
+    public UUID getExchangeTradeId() {
+        return exchangeTradeId;
+    }
+
+    public void setExchangeTradeId(UUID exchangeTradeId) {
+        this.exchangeTradeId = exchangeTradeId;
+    }
+
+    public String getStockSymbol() {
+        return stockSymbol;
+    }
+
+    public void setStockSymbol(String stockSymbol) {
+        this.stockSymbol = stockSymbol;
+    }
+
     public int getBrokerOrderId() {
         return brokerOrderId;
     }
 
     public void setBrokerOrderId(int brokerOrderId) {
         this.brokerOrderId = brokerOrderId;
-    }*/
+    }
 
-   /* public TradingAction getTradingAction() {
+    public OrderAction getTradingAction() {
         return tradingAction;
     }
 
-    public void setTradingAction(TradingAction tradingAction) {
+    public void setTradingAction(OrderAction tradingAction) {
         this.tradingAction = tradingAction;
     }
 
@@ -87,6 +80,12 @@ public class TradingActivityResponse {
 
     public void setTradePrice(int tradePrice) {
         this.tradePrice = tradePrice;
-    }*/
+    }
+
+    private OrderAction tradingAction;
+    private int quantity;
+    private int tradePrice;
+
+
 
 }

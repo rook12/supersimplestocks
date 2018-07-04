@@ -7,6 +7,10 @@
 - **Couldn't get a PE ratio for TEA (divide by zero dividend). Default to 0? throws exception at the moment**
 - Haven't introduced check preventing same order ID going in more than once
 
+#Example commands
+
+- execute-trade TEA 100 BUY 2000
+
 #Notes
 
 - 03-07-18 PM - Implemented all functionality on backend, including simulation. Expose execute Order functionality through front end, and complete client code.
