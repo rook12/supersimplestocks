@@ -5,13 +5,13 @@ import java.time.LocalDateTime;
 
 public class CalculateVwspResponse {
     private String stockSymbol;
-    private LocalDateTime localDateTime;
+    private LocalDateTime earliestTimeForTrade;
     private BigDecimal vwsp;
     private int tradeCount;
 
-    public CalculateVwspResponse(String stockSymbol, LocalDateTime localDateTime, BigDecimal vwsp, int tradeCount) {
+    public CalculateVwspResponse(String stockSymbol, LocalDateTime earliestTimeForTrade, BigDecimal vwsp, int tradeCount) {
         this.stockSymbol = stockSymbol;
-        this.localDateTime = localDateTime;
+        this.earliestTimeForTrade = earliestTimeForTrade;
         this.vwsp = vwsp;
         this.tradeCount = tradeCount;
     }
@@ -24,12 +24,12 @@ public class CalculateVwspResponse {
         this.stockSymbol = stockSymbol;
     }
 
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
+    public LocalDateTime getEarliestTimeForTrade() {
+        return earliestTimeForTrade;
     }
 
-    public void setLocalDateTime(LocalDateTime localDateTime) {
-        this.localDateTime = localDateTime;
+    public void setEarliestTimeForTrade(LocalDateTime earliestTimeForTrade) {
+        this.earliestTimeForTrade = earliestTimeForTrade;
     }
 
     public BigDecimal getVwsp() {
