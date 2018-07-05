@@ -6,6 +6,7 @@ import com.rook12.stockexchange.model.Trade;
 import com.rook12.stockexchange.model.TradeBuilder;
 import com.rook12.stockexchange.services.DividendService;
 import com.rook12.stockexchange.services.TradingService;
+import com.rook12.stockexchange.services.TradingSimulationService;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -25,9 +26,13 @@ public class StockExchangeControllerTest {
     @Mock
     private TradingService tradingService = Mockito.mock(TradingService.class);
 
+    @Mock
+    private TradingSimulationService tradingSimulationService = Mockito.mock(TradingSimulationService.class);
+
     private StockExchangeController stockExchangeController = new StockExchangeController(configurationProperties,
             dividendService,
-            tradingService);
+            tradingService,
+            tradingSimulationService);
 
     @Test
     public void calculateDividendYield() {

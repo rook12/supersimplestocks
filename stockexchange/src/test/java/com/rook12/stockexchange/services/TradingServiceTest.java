@@ -81,11 +81,6 @@ public class TradingServiceTest {
     }
 
     @Test
-    public void simulateTradingActivityTest() {
-        tradingService.simulateTradingActivity();
-    }
-
-    @Test
     public void calculateAllShareIndexLargeSet() {
         bulkOrderExecute2();
         assertEquals(new BigDecimal("130.00000"), tradingService.calculateAllShareIndex().getAllShareIndex());

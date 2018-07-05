@@ -12,5 +12,4 @@ public interface TradingService {
     Trade executeOrder(int orderId, String stockSymbol, TradingAction action, int quantity, int tradePrice, LocalDateTime timeStamp);
     CalculateVwspResponse calculateVwsp(String stockSymbol);
     CalculateAllShareIndexResponse calculateAllShareIndex();
-    void simulateTradingActivity();
 }

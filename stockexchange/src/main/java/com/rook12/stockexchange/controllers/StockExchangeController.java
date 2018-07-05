@@ -5,6 +5,7 @@ import com.rook12.stockexchange.dto.*;
 import com.rook12.stockexchange.model.Trade;
 import com.rook12.stockexchange.services.DividendService;
 import com.rook12.stockexchange.services.TradingService;
+import com.rook12.stockexchange.services.TradingSimulationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -14,19 +15,20 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path="/api")
 public class StockExchangeController {
     private StockExchangeConfigurationProperties configurationProperties ;
-
-    DividendService dividendService;
-    TradingService tradingService;
+    private DividendService dividendService;
+    private TradingService tradingService;
+    private TradingSimulationService tradingSimulationService;
 
     @Autowired
     public StockExchangeController(StockExchangeConfigurationProperties configurationProperties,
                                    DividendService dividendService,
-                                   TradingService tradingService) {
+                                   TradingService tradingService,
+                                   TradingSimulationService tradingSimulationService) {
         this.configurationProperties = configurationProperties;
         this.dividendService = dividendService;
         this.tradingService = tradingService;
+        this.tradingSimulationService = tradingSimulationService;
     }
-
 
     @GetMapping(path="/calculateDividendYield")
     public @ResponseBody DividendYieldResponse calculateDividendYield(
@@ -63,7 +65,7 @@ public class StockExchangeController {
     @GetMapping(path="/simulateTrades")
     public @ResponseBody
     boolean simulateTradingActivity() {
-        tradingService.simulateTradingActivity();
+        tradingSimulationService.simulateTrades();
         return true;
     }
 

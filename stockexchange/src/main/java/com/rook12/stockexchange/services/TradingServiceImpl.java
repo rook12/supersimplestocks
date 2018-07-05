@@ -2,7 +2,6 @@ package com.rook12.stockexchange.services;
 
 import com.rook12.stockexchange.dto.CalculateAllShareIndexResponse;
 import com.rook12.stockexchange.dto.CalculateVwspResponse;
-import com.rook12.stockexchange.model.Stock;
 import com.rook12.stockexchange.model.Trade;
 import com.rook12.stockexchange.model.TradeBuilder;
 import com.rook12.stockexchange.model.TradingAction;
@@ -17,7 +16,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -26,7 +24,6 @@ public class TradingServiceImpl implements TradingService {
     private TradingActivityRepository tradingActivityRepository;
     private StockRepository stockRepository;
 
-    private int simulateTradingActivityBrokerOrderId = 10000;
 
     private static final int VWSP_MINUTES = 15;
     private static final Logger logger = LoggerFactory.getLogger(TradingServiceImpl.class);
@@ -135,40 +132,5 @@ public class TradingServiceImpl implements TradingService {
         return new CalculateAllShareIndexResponse(bd, trades.size(), LocalDateTime.now());
     }
 
-    /**
-     * Generates 100 trades with pseudo random parameters, giving a range of trades within the past 30 minutes
-     */
-    @Override
-    public void simulateTradingActivity() {
-        //Simulate 100 trades
-        List<Stock> stockList =  stockRepository.findAll();
 
-        Random rand = new Random();
-
-        int lowQuantity = 80;
-        int highQuantity = 130;
-
-        int lowTime = 1;
-        int highTime = 30;
-
-        int lowTradePrice = 50;
-        int highTradePrice = 260;
-
-        int startPoint = simulateTradingActivityBrokerOrderId;
-        int endPoint = simulateTradingActivityBrokerOrderId + 100;
-
-        //Start at a high number so the simulated trade order IDs don't interfere with what the user is likely to be doing on front end
-        for (int i = startPoint; i < endPoint; i++) {
-            Stock randomStock = stockList.get(rand.nextInt(stockList.size()-1));
-
-            executeOrder(i,
-                    randomStock.getSymbol(),
-                    TradingAction.values()[rand.nextInt(1)],
-                    rand.nextInt(highQuantity-lowQuantity) + lowQuantity
-                    , rand.nextInt(highTradePrice-lowTradePrice) + lowTradePrice,
-                    LocalDateTime.now().minusMinutes(rand.nextInt(highTime-lowTime) + lowTime) );
-        }
-
-        simulateTradingActivityBrokerOrderId+=100;
-    }
 }
