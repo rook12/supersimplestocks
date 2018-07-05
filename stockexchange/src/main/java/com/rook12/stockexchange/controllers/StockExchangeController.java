@@ -14,17 +14,14 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping(path="/api")
 public class StockExchangeController {
-    private StockExchangeConfigurationProperties configurationProperties ;
     private DividendService dividendService;
     private TradingService tradingService;
     private TradingSimulationService tradingSimulationService;
 
     @Autowired
-    public StockExchangeController(StockExchangeConfigurationProperties configurationProperties,
-                                   DividendService dividendService,
+    public StockExchangeController(DividendService dividendService,
                                    TradingService tradingService,
                                    TradingSimulationService tradingSimulationService) {
-        this.configurationProperties = configurationProperties;
         this.dividendService = dividendService;
         this.tradingService = tradingService;
         this.tradingSimulationService = tradingSimulationService;
@@ -64,8 +61,10 @@ public class StockExchangeController {
 
     @GetMapping(path="/simulateTrades")
     public @ResponseBody
-    SimulateTradeReponse simulateTradingActivity() {
-        return tradingSimulationService.simulateTrades();
+    SimulateTradeReponse simulateTradingActivity(
+            @RequestParam(value="mode") String mode
+    ) {
+        return tradingSimulationService.simulateTrades(mode.toLowerCase());
     }
 
     @PostMapping(path="/executeOrder")

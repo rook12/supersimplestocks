@@ -29,8 +29,7 @@ public class StockExchangeControllerTest {
     @Mock
     private TradingSimulationService tradingSimulationService = Mockito.mock(TradingSimulationService.class);
 
-    private StockExchangeController stockExchangeController = new StockExchangeController(configurationProperties,
-            dividendService,
+    private StockExchangeController stockExchangeController = new StockExchangeController(dividendService,
             tradingService,
             tradingSimulationService);
 
@@ -106,14 +105,14 @@ public class StockExchangeControllerTest {
     @Test
     public void simulateTradingActivity() {
         SimulateTradeReponse simulateTradeReponse = new SimulateTradeReponse();
-        when(tradingSimulationService.simulateTrades()).thenReturn(simulateTradeReponse);
+        when(tradingSimulationService.simulateTrades("")).thenReturn(simulateTradeReponse);
         TradeBuilder tradeBuilder = new TradeBuilder();
         simulateTradeReponse.addTrade(tradeBuilder.createTrade());
         simulateTradeReponse.addTrade(tradeBuilder.createTrade());
         simulateTradeReponse.addTrade(tradeBuilder.createTrade());
         simulateTradeReponse.addTrade(tradeBuilder.createTrade());
 
-        assertEquals(4, stockExchangeController.simulateTradingActivity().getTradeCount());
-        verify(tradingSimulationService).simulateTrades();
+        assertEquals(4, stockExchangeController.simulateTradingActivity("").getTradeCount());
+        verify(tradingSimulationService).simulateTrades("");
     }
 }

@@ -2,6 +2,7 @@ package com.rook12.stockbroker.services;
 
 import com.rook12.stockbroker.dto.*;
 import com.rook12.stockbroker.model.OrderAction;
+import com.rook12.stockbroker.model.SimulateTradeModes;
 import org.junit.Test;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -70,11 +71,11 @@ public class StockExchangeServiceImplTest {
     public void simulateTrades() {
         String simulateTradesResponseJson = "{\"simulationComplete\":\"2018-07-05T20:54:41.495\",\"trades\":[{\"timestamp\":\"2018-07-05T20:25:41.465\",\"exchangeTradeId\":\"bacfa125-7a96-424e-9c3d-5a13f2bbcc3b\",\"stockSymbol\":\"TEA\",\"brokerOrderId\":0,\"tradingAction\":\"BUY\",\"quantity\":105,\"tradePrice\":149}],\"tradeCount\":1}";
 
-        mockRestServiceServer.expect(once(), requestTo("http://localhost:8080/api/simulateTrades"))
+        mockRestServiceServer.expect(once(), requestTo("http://localhost:8080/api/simulateTrades?mode=CONSISTENT"))
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(withSuccess(simulateTradesResponseJson, MediaType.APPLICATION_JSON_UTF8));
 
-        SimulateTradeResponse simulateTradeResponse = stockExchangeService.simulateTrades();
+        SimulateTradeResponse simulateTradeResponse = stockExchangeService.simulateTrades(SimulateTradeModes.CONSISTENT);
         assertEquals(1, simulateTradeResponse.getTradeCount());
         assertEquals(1, simulateTradeResponse.getTrades().size());
     }

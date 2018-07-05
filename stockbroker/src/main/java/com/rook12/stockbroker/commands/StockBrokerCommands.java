@@ -2,6 +2,7 @@ package com.rook12.stockbroker.commands;
 
 import com.rook12.stockbroker.dto.*;
 import com.rook12.stockbroker.model.OrderAction;
+import com.rook12.stockbroker.model.SimulateTradeModes;
 import com.rook12.stockbroker.services.StockExchangeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,8 +78,8 @@ public class StockBrokerCommands {
     }
 
     @ShellMethod("Instruct stock market to simulate 100 trades with pseudo-random values")
-    public String simulateTrades() {
-        SimulateTradeResponse simulateTradeResponse = exchangeService.simulateTrades();
+    public String simulateTrades(SimulateTradeModes mode) {
+        SimulateTradeResponse simulateTradeResponse = exchangeService.simulateTrades(mode);
         return "finished simulating trades - " + simulateTradeResponse.getTradeCount();
     }
 

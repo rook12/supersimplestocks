@@ -12,7 +12,13 @@
 - Put in invalid stock exception
 - naive implementation, blindly assuming stocks are available
 - maybe could have put dividend service methods into general service class, and remove all share index/vwsp caluclation to other service. initial thought was they are closely related to trade activity. ran of out time to refactor
-- maybe could have made broker oder id not an int 
+- maybe could have made broker oder id not an int
+- change dependencies to explicit versions
+- All Share index. calculating product dies at 100
+- log of product, then dies at around 500
+- log10 of product, around 800
+stockexchange.geometricmeanmethod=SIMPLE / NATUALLOG
+- Was going to implement a store on the broker side to hold client position, hence the empty CUstomerAccount and repository classes. 
 #Example commands
 
 - execute-trade TEA 100 BUY 2000

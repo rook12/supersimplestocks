@@ -2,6 +2,7 @@ package com.rook12.stockbroker.commands;
 
 import com.rook12.stockbroker.dto.*;
 import com.rook12.stockbroker.model.OrderAction;
+import com.rook12.stockbroker.model.SimulateTradeModes;
 import com.rook12.stockbroker.services.StockExchangeService;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -91,8 +92,8 @@ public class StockBrokerCommandsTest {
     public void simulateTrades() {
         SimulateTradeResponse mockResponse = new SimulateTradeResponse();
         mockResponse.setTradeCount(3);
-        when(stockExchangeService.simulateTrades())
+        when(stockExchangeService.simulateTrades(SimulateTradeModes.CONSISTENT))
                 .thenReturn(mockResponse);
-        assertEquals("finished simulating trades - 3", stockBrokerCommands.simulateTrades());
+        assertEquals("finished simulating trades - 3", stockBrokerCommands.simulateTrades(SimulateTradeModes.CONSISTENT));
     }
 }

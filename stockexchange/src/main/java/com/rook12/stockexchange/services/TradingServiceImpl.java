@@ -1,5 +1,6 @@
 package com.rook12.stockexchange.services;
 
+import com.rook12.stockexchange.config.StockExchangeConfigurationProperties;
 import com.rook12.stockexchange.dto.CalculateAllShareIndexResponse;
 import com.rook12.stockexchange.dto.CalculateVwspResponse;
 import com.rook12.stockexchange.model.Trade;
@@ -21,17 +22,17 @@ import java.util.stream.Collectors;
 
 @Service
 public class TradingServiceImpl implements TradingService {
-    private TradingActivityRepository tradingActivityRepository;
-    private StockRepository stockRepository;
-
-
     private static final int VWSP_MINUTES = 15;
     private static final Logger logger = LoggerFactory.getLogger(TradingServiceImpl.class);
+    private TradingActivityRepository tradingActivityRepository;
+    private StockRepository stockRepository;
+    private StockExchangeConfigurationProperties configurationProperties ;
 
     @Autowired
-    public TradingServiceImpl(TradingActivityRepository tradingActivityRepository, StockRepository stockRepository) {
+    public TradingServiceImpl(TradingActivityRepository tradingActivityRepository, StockRepository stockRepository, StockExchangeConfigurationProperties configurationProperties) {
         this.tradingActivityRepository = tradingActivityRepository;
         this.stockRepository = stockRepository;
+        this.configurationProperties = configurationProperties;
     }
 
     @Override
@@ -120,17 +121,41 @@ public class TradingServiceImpl implements TradingService {
         //TODO: Probably some nicer way of doing this through a reduce function, come back to
         double productOfTradePrice = 1;
         for (int tradePrice : trades.stream()
-                     .map(Trade::getTradePrice)
-                     .collect(Collectors.toList())) {
-            productOfTradePrice*=tradePrice;
+                .map(Trade::getTradePrice)
+                .collect(Collectors.toList())) {
+
+            productOfTradePrice*=calculateMultipicandForGeometricMeanProduct(tradePrice);
         }
         logger.info("productOfTradePrice - " + Double.toString(productOfTradePrice));
 
         double geometricMean = Math.pow(productOfTradePrice, 1.0 / trades.size());
-        BigDecimal bd = new BigDecimal(Double.toString(geometricMean)).setScale(5, BigDecimal.ROUND_HALF_UP);
-        logger.info("geometricMean - " + bd.toString());
+        geometricMean = finaliseGeometricMean(geometricMean);
+
+        logger.info("geometricMean - " + geometricMean);
+        BigDecimal bd = new BigDecimal(geometricMean).setScale(5, BigDecimal.ROUND_HALF_UP);
         return new CalculateAllShareIndexResponse(bd, trades.size(), LocalDateTime.now());
+    }
+
+    private double calculateMultipicandForGeometricMeanProduct(int tradePrice) {
+        if(configurationProperties.getGeometricmeanmethod().equals("SIMPLE")) {
+            return tradePrice;
+        }
+        else if(configurationProperties.getGeometricmeanmethod().equals("NATURALLOG")) {
+            return Math.log(tradePrice);
+        }
+        return tradePrice;
+    }
+
+    private double finaliseGeometricMean(double geometricMean) {
+        if(configurationProperties.getGeometricmeanmethod().equals("SIMPLE")) {
+            return geometricMean;
+        }
+        else if(configurationProperties.getGeometricmeanmethod().equals("NATURALLOG")) {
+            return Math.exp(geometricMean);
+        }
+        return geometricMean;
     }
 
 
 }
+

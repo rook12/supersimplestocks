@@ -1,15 +1,18 @@
 package com.rook12.stockexchange.services;
 
+import com.rook12.stockexchange.config.StockExchangeConfigurationProperties;
 import com.rook12.stockexchange.model.Trade;
 import com.rook12.stockexchange.model.TradingAction;
 import com.rook12.stockexchange.repositories.StockRepositoryInMemoryImpl;
 import com.rook12.stockexchange.repositories.TradingActivityRepository;
 import com.rook12.stockexchange.repositories.TradingActivityRepositoryInMemoryImpl;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.math.BigDecimal;
+import java.text.Bidi;
 import java.time.LocalDateTime;
 
 import static org.junit.Assert.assertEquals;
@@ -23,8 +26,8 @@ public class TradingServiceTest {
 
     //In memory repo is cheap, don't bother with Mockito
     private TradingActivityRepository repository = new TradingActivityRepositoryInMemoryImpl();
-
-    private TradingServiceImpl tradingService = new TradingServiceImpl(repository, new StockRepositoryInMemoryImpl());
+    private StockExchangeConfigurationProperties configurationProperties = new StockExchangeConfigurationProperties();
+    private TradingServiceImpl tradingService = new TradingServiceImpl(repository, new StockRepositoryInMemoryImpl(), configurationProperties);
 
     private LocalDateTime now = LocalDateTime.now();
 
@@ -77,12 +80,40 @@ public class TradingServiceTest {
         //120 + 130 + 140 + 75 + 105 + 260 + 285 + 120 + 120 + 290 + 130 = 1775
         //trade count - 11 square root - 3.3166247903554
 
+        //Simple - 146.98567882520356
+        //Log natural - 144.4605168261392
+        //Log 10 -      144.46051682613927
+
+        configurationProperties.setGeometricmeanmethod("SIMPLE");
         assertEquals(new BigDecimal("146.98568"), tradingService.calculateAllShareIndex().getAllShareIndex());
+    }
+
+    @Test
+    @Ignore
+    public void allShareIndexMaths() {
+        double b = 131233424234.0;
+        double d = b/1000;
+
+        double c = Math.exp(b);
+        double e = Math.log(b);
+        //BigDecimal.valueOf("").exp
+        double f = Math.exp(e);
+
+        double g = 300;
+        double h = Math.log10(g);
+        double i = Math.log(g);
+        double j = Math.pow(h, 10);
+        double k = Math.pow(10, h);
+
+        BigDecimal.valueOf(5);
+
+        String a = "";
     }
 
     @Test
     public void calculateAllShareIndexLargeSet() {
         bulkOrderExecute2();
+        configurationProperties.setGeometricmeanmethod("SIMPLE");
         assertEquals(new BigDecimal("130.00000"), tradingService.calculateAllShareIndex().getAllShareIndex());
     }
 

@@ -2,6 +2,7 @@ package com.rook12.stockbroker.services;
 
 import com.rook12.stockbroker.dto.*;
 import com.rook12.stockbroker.model.OrderAction;
+import com.rook12.stockbroker.model.SimulateTradeModes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,10 +68,11 @@ public class StockExchangeServiceImpl implements StockExchangeService {
     }
 
     @Override
-    public SimulateTradeResponse simulateTrades() {
+    public SimulateTradeResponse simulateTrades(SimulateTradeModes mode) {
         logger.info("simulate trades");
         HttpEntity<SimulateTradeResponse> response = restTemplate.getForEntity(UriComponentsBuilder.fromHttpUrl(
-                apiBaseUrl + "/simulateTrades").toUriString(),
+                apiBaseUrl + "/simulateTrades")
+                        .queryParam("mode", mode).toUriString(),
                 SimulateTradeResponse.class);
         return response.getBody();
     }

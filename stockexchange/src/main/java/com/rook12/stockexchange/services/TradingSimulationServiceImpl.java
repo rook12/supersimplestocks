@@ -7,6 +7,7 @@ import com.rook12.stockexchange.repositories.StockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
@@ -36,8 +37,7 @@ public class TradingSimulationServiceImpl implements TradingSimulationService {
     /**
      * Generates 100 trades with pseudo random parameters, giving a range of trades within the past 30 minutes
      */
-    @Override
-    public SimulateTradeReponse simulateTrades() {
+    public SimulateTradeReponse simulate100PseudoRandomTrades() {
         //Simulate 100 trades
         List<Stock> stockList = stockRepository.findAll();
 
@@ -64,5 +64,47 @@ public class TradingSimulationServiceImpl implements TradingSimulationService {
 
         response.setSimulationComplete(LocalDateTime.now());
         return response;
+    }
+
+    /**
+     * Generates the same 10 trades every time
+     * @return SimulateTradeReponse
+     */
+    public SimulateTradeReponse simulate10ConsistentTrades() {
+        LocalDateTime now = LocalDateTime.now();
+
+        SimulateTradeReponse response = new SimulateTradeReponse();
+        response.addTrade(tradingService.executeOrder(simulateTradingActivityBrokerOrderId, "TEA", TradingAction.BUY, 88, 120, now));
+        simulateTradingActivityBrokerOrderId += 1;
+        response.addTrade(tradingService.executeOrder(simulateTradingActivityBrokerOrderId, "POP", TradingAction.BUY, 100, 130, now));
+        simulateTradingActivityBrokerOrderId += 1;
+        response.addTrade(tradingService.executeOrder(simulateTradingActivityBrokerOrderId, "POP", TradingAction.BUY, 130, 140, now));
+        simulateTradingActivityBrokerOrderId += 1;
+        response.addTrade(tradingService.executeOrder(simulateTradingActivityBrokerOrderId, "ALE", TradingAction.BUY, 124, 75, now));
+        simulateTradingActivityBrokerOrderId += 1;
+        response.addTrade(tradingService.executeOrder(simulateTradingActivityBrokerOrderId, "GIN", TradingAction.BUY, 168, 105, now));
+        simulateTradingActivityBrokerOrderId += 1;
+        response.addTrade(tradingService.executeOrder(simulateTradingActivityBrokerOrderId, "JOE", TradingAction.BUY, 351, 260, now));
+        simulateTradingActivityBrokerOrderId += 1;
+        response.addTrade(tradingService.executeOrder(simulateTradingActivityBrokerOrderId, "JOE", TradingAction.BUY, 687, 285, now));
+        simulateTradingActivityBrokerOrderId += 1;
+        //These trades below should not factor into calculation VWSP as they are beyond 15 minutes
+        response.addTrade(tradingService.executeOrder(simulateTradingActivityBrokerOrderId, "TEA", TradingAction.BUY, 504, 120, now.minusMinutes(30)));
+        simulateTradingActivityBrokerOrderId += 1;
+        response.addTrade(tradingService.executeOrder(simulateTradingActivityBrokerOrderId, "GIN", TradingAction.BUY, 80, 120, now.minusMinutes(30)));
+        simulateTradingActivityBrokerOrderId += 1;
+        response.addTrade(tradingService.executeOrder(simulateTradingActivityBrokerOrderId, "JOE", TradingAction.BUY, 345, 290, now.minusMinutes(30)));
+        simulateTradingActivityBrokerOrderId += 1;
+
+        response.setSimulationComplete(LocalDateTime.now());
+        return response;
+    }
+
+    @Override
+    public SimulateTradeReponse simulateTrades(String mode) {
+        if(mode.equals("random")) {
+            return simulate100PseudoRandomTrades();
+        }
+        return simulate10ConsistentTrades();
     }
 }
