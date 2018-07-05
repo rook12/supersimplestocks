@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -79,7 +80,8 @@ public class StockBrokerCommandsTest {
 
     @Test
     public void calculateAllShareIndex() {
-        AllShareIndexResponse mockResponse = new AllShareIndexResponse(new BigDecimal("12.34"), 100, LocalDateTime.now());
+        AllShareIndexResponse mockResponse = new AllShareIndexResponse();
+        mockResponse.setAllShareIndex(new BigDecimal("12.34"));
 
         when(stockExchangeService.getAllShareIndex())
                 .thenReturn(mockResponse);

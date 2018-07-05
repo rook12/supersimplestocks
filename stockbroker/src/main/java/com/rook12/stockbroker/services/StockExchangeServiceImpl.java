@@ -41,7 +41,15 @@ public class StockExchangeServiceImpl implements StockExchangeService {
     @Override
     public PeRatioResponse getPeRatio(String stockSymbol, int marketPrice) {
         logger.info(String.format("calculating pe ratio for %s at price %s", stockSymbol, marketPrice));
-        return null;
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(apiBaseUrl + "/calculatePeRatio")
+                .queryParam("stockSymbol", stockSymbol)
+                .queryParam("marketPrice", marketPrice);
+
+        //RestTemplate will quietly not send data in request body in the case of a GET
+        HttpEntity<PeRatioResponse> response = restTemplate.getForEntity(builder.toUriString(), PeRatioResponse.class);
+
+        return response.getBody();
     }
 
     @Override
@@ -70,7 +78,9 @@ public class StockExchangeServiceImpl implements StockExchangeService {
     @Override
     public VwspResponse getVwsp(String stockSymbol) {
         logger.info("calculate volume weighted stock price for stock - "  +stockSymbol);
-        HttpEntity<VwspResponse> response = restTemplate.getForEntity("", VwspResponse.class);
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(apiBaseUrl + "/calculateVwsp").queryParam("stockSymbol", stockSymbol);
+        HttpEntity<VwspResponse> response = restTemplate.getForEntity(builder.toUriString(), VwspResponse.class);
 
         return response.getBody();
     }
@@ -78,7 +88,9 @@ public class StockExchangeServiceImpl implements StockExchangeService {
     @Override
     public AllShareIndexResponse getAllShareIndex() {
         logger.info("calculate all share index");
-        HttpEntity<AllShareIndexResponse> response = restTemplate.getForEntity("", AllShareIndexResponse.class);
+        HttpEntity<AllShareIndexResponse> response = restTemplate.getForEntity(
+                UriComponentsBuilder.fromHttpUrl(apiBaseUrl + "/calculateAllShareIndex").toUriString(),
+                AllShareIndexResponse.class);
 
         return response.getBody();
     }

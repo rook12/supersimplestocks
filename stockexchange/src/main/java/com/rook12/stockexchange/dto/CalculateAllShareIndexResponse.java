@@ -6,7 +6,14 @@ import java.time.LocalDateTime;
 public class CalculateAllShareIndexResponse {
     private BigDecimal allShareIndex;
     private int tradeCount;
-    private LocalDateTime timestamp;
+    private LocalDateTime indexComputationTimestamp;
+
+    public CalculateAllShareIndexResponse(BigDecimal allShareIndex, int tradeCount, LocalDateTime indexComputationTimestamp) {
+
+        this.allShareIndex = allShareIndex;
+        this.tradeCount = tradeCount;
+        this.indexComputationTimestamp = indexComputationTimestamp;
+    }
 
     public BigDecimal getAllShareIndex() {
         return allShareIndex;
@@ -24,18 +31,11 @@ public class CalculateAllShareIndexResponse {
         this.tradeCount = tradeCount;
     }
 
-    public LocalDateTime getTimestamp() {
-        return timestamp;
+    public LocalDateTime getIndexComputationTimestamp() {
+        return indexComputationTimestamp;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public CalculateAllShareIndexResponse(BigDecimal allShareIndex, int tradeCount, LocalDateTime timestamp) {
-
-        this.allShareIndex = allShareIndex;
-        this.tradeCount = tradeCount;
-        this.timestamp = timestamp;
+    public void setIndexComputationTimestamp(LocalDateTime indexComputationTimestamp) {
+        this.indexComputationTimestamp = indexComputationTimestamp;
     }
 }

@@ -63,6 +63,7 @@ public class StockBrokerCommands {
         logger.info("quantity " + response.getQuantity());
         logger.info("execution time " + response.getTimestamp());
         logger.info("trade action " + response.getTradingAction());
+        logger.info("trace price " + response.getTradePrice());
         return response.getBrokerOrderId();
     }
 

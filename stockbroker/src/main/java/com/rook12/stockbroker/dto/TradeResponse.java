@@ -2,11 +2,13 @@ package com.rook12.stockbroker.dto;
 
 //import com.rook12.stockexchange.model.TradingAction;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.rook12.stockbroker.model.OrderAction;
 
 import java.util.Date;
 import java.util.UUID;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TradeResponse {
     private Date timestamp;
     private UUID exchangeTradeId = UUID.randomUUID();

@@ -1,7 +1,10 @@
 package com.rook12.stockbroker.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.math.BigDecimal;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PeRatioResponse {
     private BigDecimal peRatio;
     private String stockType;

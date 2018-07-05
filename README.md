@@ -2,10 +2,12 @@
 
 # Assumptions
 
+- Order/Trade are used interchangeably
 - Could have done dividend yield and P/E ratio on stock broker, kept it all in exchange
 - Made Preferred stock a subclass of Common stock as it shares all the same properties (excluding one) and the same functionality (excluding dividend yield calculation). Perhaps would have used decorator or strategy if they diverged more.
 - **Couldn't get a PE ratio for TEA (divide by zero dividend). Default to 0? throws exception at the moment**
 - Haven't introduced check preventing same order ID going in more than once
+- Check if I can run more than 100 order without breaking vwsp
 
 #Example commands
 

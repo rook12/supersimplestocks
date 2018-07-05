@@ -26,6 +26,8 @@ public class TradingServiceImpl implements TradingService {
     private TradingActivityRepository tradingActivityRepository;
     private StockRepository stockRepository;
 
+    private int simulateTradingActivityBrokerOrderId = 10000;
+
     private static final int VWSP_MINUTES = 15;
     private static final Logger logger = LoggerFactory.getLogger(TradingServiceImpl.class);
 
@@ -152,8 +154,11 @@ public class TradingServiceImpl implements TradingService {
         int lowTradePrice = 50;
         int highTradePrice = 260;
 
+        int startPoint = simulateTradingActivityBrokerOrderId;
+        int endPoint = simulateTradingActivityBrokerOrderId + 100;
+
         //Start at a high number so the simulated trade order IDs don't interfere with what the user is likely to be doing on front end
-        for (int i = 10000; i < 10100; i++) {
+        for (int i = startPoint; i < endPoint; i++) {
             Stock randomStock = stockList.get(rand.nextInt(stockList.size()-1));
 
             executeOrder(i,
@@ -163,5 +168,7 @@ public class TradingServiceImpl implements TradingService {
                     , rand.nextInt(highTradePrice-lowTradePrice) + lowTradePrice,
                     LocalDateTime.now().minusMinutes(rand.nextInt(highTime-lowTime) + lowTime) );
         }
+
+        simulateTradingActivityBrokerOrderId+=100;
     }
 }
