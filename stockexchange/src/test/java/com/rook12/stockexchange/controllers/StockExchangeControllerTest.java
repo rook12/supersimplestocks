@@ -16,6 +16,7 @@ import java.time.LocalTime;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class StockExchangeControllerTest {
@@ -41,6 +42,7 @@ public class StockExchangeControllerTest {
         when(dividendService.getDividendYield("POP", 100))
                 .thenReturn(mockResponse);
         assertEquals("POP", stockExchangeController.calculateDividendYield("POP", 100).getStockSymbol());
+        verify(dividendService).getDividendYield("POP", 100);
     }
 
     @Test
@@ -54,6 +56,7 @@ public class StockExchangeControllerTest {
         when(dividendService.getPeRatio("POP", 100))
                 .thenReturn(mockResponse);
         assertEquals(new BigDecimal("12345"), stockExchangeController.calculatePeRatio("POP", 100).getPeRatio());
+        verify(dividendService).getPeRatio("POP", 100);
     }
 
     @Test
@@ -67,7 +70,7 @@ public class StockExchangeControllerTest {
                 .thenReturn(mockResponse);
 
         assertEquals(40, stockExchangeController.calculateVwsp("POP").getTradeCount());
-
+        verify(tradingService).calculateVwsp("POP");
     }
 
     @Test
@@ -80,6 +83,7 @@ public class StockExchangeControllerTest {
                 .thenReturn(mockResponse);
 
         assertEquals(40, stockExchangeController.calculateAllShareIndex().getTradeCount());
+        verify(tradingService).calculateAllShareIndex();
     }
 
 
@@ -93,5 +97,6 @@ public class StockExchangeControllerTest {
         when(tradingService.executeOrder(12345, null, null, 0, 0))
                 .thenReturn(mockTradeResponse);
         assertEquals(12345, stockExchangeController.executeOrder(request).getBrokerOrderId());
+        verify(tradingService).executeOrder(12345, null, null, 0, 0);
     }
 }

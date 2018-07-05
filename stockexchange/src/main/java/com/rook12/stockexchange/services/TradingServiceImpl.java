@@ -66,6 +66,15 @@ public class TradingServiceImpl implements TradingService {
         return tradingActivityRepository.findByBrokerOrderId(orderId);
     }
 
+    /**
+     * VWSP
+     * Σ = Sigma = which means sum
+     * For each trade - trade price x quantity, then add them up to get the total. -- A
+     * For each trade - add the quantities together --B
+     * A / B is the VWSP
+     * @param stockSymbol - Symbol to calculate VWSP on
+     * @return CalculateVwspResponse
+     */
     @Override
     public CalculateVwspResponse calculateVwsp(String stockSymbol) {
         logger.info("calculateVwsp");
@@ -81,11 +90,6 @@ public class TradingServiceImpl implements TradingService {
             return new CalculateVwspResponse(stockSymbol, oldestTradeTime, new BigDecimal(0), 0);
         }
 
-        //VWSP
-        //Σ = Sigma = which means sum
-        //For each trade - trade price x quantity, then add them up to get the total. -- A
-        //For each trade - add the quantities together --B
-        //A / B is the VWSP
         int totalSumOfTradesTimesQuantity = trades.stream().mapToInt(trade -> (trade.getTradePrice() * trade.getQuantity())).sum();
         logger.info("totalProductOfTradesTimesQuantity - " + Integer.toString(totalSumOfTradesTimesQuantity));
 
@@ -129,6 +133,9 @@ public class TradingServiceImpl implements TradingService {
         return new CalculateAllShareIndexResponse(bd, trades.size(), LocalDateTime.now());
     }
 
+    /**
+     * Generates 100 trades with pseudo random parameters, giving a range of trades within the past 30 minutes
+     */
     @Override
     public void simulateTradingActivity() {
         //Simulate 100 trades

@@ -1,23 +1,28 @@
 package com.rook12.stockbroker.services;
 
+import com.rook12.stockbroker.dto.*;
 import com.rook12.stockbroker.model.OrderAction;
-import com.rook12.stockbroker.dto.DividendYieldResponse;
-import com.rook12.stockbroker.dto.TradeRequest;
-import com.rook12.stockbroker.dto.TradeResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-@Component
+@Service
 public class StockExchangeServiceImpl implements StockExchangeService {
     private static String apiBaseUrl = "http://localhost:8080/api";
 
     private static final Logger logger = LoggerFactory.getLogger(StockExchangeServiceImpl.class);
 
-    private RestTemplate restTemplate = new RestTemplate();
+    private RestTemplate restTemplate;
+
+    @Autowired
+    public StockExchangeServiceImpl(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     @Override
     public DividendYieldResponse getDividendYield(String stockSymbol, int marketPrice) {
@@ -31,6 +36,12 @@ public class StockExchangeServiceImpl implements StockExchangeService {
         HttpEntity<DividendYieldResponse> response = restTemplate.getForEntity(builder.toUriString(), DividendYieldResponse.class);
 
         return response.getBody();
+    }
+
+    @Override
+    public PeRatioResponse getPeRatio(String stockSymbol, int marketPrice) {
+        logger.info(String.format("calculating pe ratio for %s at price %s", stockSymbol, marketPrice));
+        return null;
     }
 
     @Override
@@ -53,6 +64,22 @@ public class StockExchangeServiceImpl implements StockExchangeService {
         HttpEntity<Boolean> response = restTemplate.getForEntity(UriComponentsBuilder.fromHttpUrl(
                 apiBaseUrl + "/simulateTrades").toUriString(),
                 Boolean.class);
+        return response.getBody();
+    }
+
+    @Override
+    public VwspResponse getVwsp(String stockSymbol) {
+        logger.info("calculate volume weighted stock price for stock - "  +stockSymbol);
+        HttpEntity<VwspResponse> response = restTemplate.getForEntity("", VwspResponse.class);
+
+        return response.getBody();
+    }
+
+    @Override
+    public AllShareIndexResponse getAllShareIndex() {
+        logger.info("calculate all share index");
+        HttpEntity<AllShareIndexResponse> response = restTemplate.getForEntity("", AllShareIndexResponse.class);
+
         return response.getBody();
     }
 
