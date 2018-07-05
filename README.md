@@ -8,8 +8,11 @@
 - **Couldn't get a PE ratio for TEA (divide by zero dividend). Default to 0? throws exception at the moment**
 - Haven't introduced check preventing same order ID going in more than once
 - Check if I can run more than 100 order without breaking vwsp
-- improve vwsp/all share index calculation
-
+- improve all share index calculation
+- Put in invalid stock exception
+- naive implementation, blindly assuming stocks are available
+- maybe could have put dividend service methods into general service class, and remove all share index/vwsp caluclation to other service. initial thought was they are closely related to trade activity. ran of out time to refactor
+- maybe could have made broker oder id not an int 
 #Example commands
 
 - execute-trade TEA 100 BUY 2000

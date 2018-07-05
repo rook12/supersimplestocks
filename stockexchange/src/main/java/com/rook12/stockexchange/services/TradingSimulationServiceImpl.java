@@ -17,7 +17,8 @@ public class TradingSimulationServiceImpl implements TradingSimulationService {
     private StockRepository stockRepository;
     private TradingService tradingService;
 
-    private int simulateTradingActivityBrokerOrderId;
+    //Start at a high number so the simulated trade order IDs don't interfere with what the user is likely to be doing on front end
+    private int simulateTradingActivityBrokerOrderId = 2000;
 
     private static int LOWER_QUANT = 80;
     private static int UPPER_QUANTITY = 130;
@@ -47,7 +48,7 @@ public class TradingSimulationServiceImpl implements TradingSimulationService {
 
         SimulateTradeReponse response = new SimulateTradeReponse();
 
-        //Start at a high number so the simulated trade order IDs don't interfere with what the user is likely to be doing on front end
+
         for (int i = startPoint; i < endPoint; i++) {
             Stock randomStock = stockList.get(rand.nextInt(stockList.size() - 1));
 
