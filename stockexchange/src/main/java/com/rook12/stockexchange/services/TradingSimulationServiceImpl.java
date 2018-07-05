@@ -1,5 +1,6 @@
 package com.rook12.stockexchange.services;
 
+import com.rook12.stockexchange.dto.SimulateTradeReponse;
 import com.rook12.stockexchange.model.Stock;
 import com.rook12.stockexchange.model.TradingAction;
 import com.rook12.stockexchange.repositories.StockRepository;
@@ -18,6 +19,13 @@ public class TradingSimulationServiceImpl implements TradingSimulationService {
 
     private int simulateTradingActivityBrokerOrderId;
 
+    private static int LOWER_QUANT = 80;
+    private static int UPPER_QUANTITY = 130;
+    private static int LOWER_TIME = 1;
+    private static int UPPER_TIME = 30;
+    private static int LOWER_TRADE_PRICE = 50;
+    private static int UPPER_TRADE_PRICE = 260;
+
     @Autowired
     public TradingSimulationServiceImpl(StockRepository stockRepository, TradingService tradingService) {
         this.stockRepository = stockRepository;
@@ -28,36 +36,32 @@ public class TradingSimulationServiceImpl implements TradingSimulationService {
      * Generates 100 trades with pseudo random parameters, giving a range of trades within the past 30 minutes
      */
     @Override
-    public void simulateTrades() {
+    public SimulateTradeReponse simulateTrades() {
         //Simulate 100 trades
         List<Stock> stockList = stockRepository.findAll();
 
         Random rand = new Random();
 
-        int lowQuantity = 80;
-        int highQuantity = 130;
-
-        int lowTime = 1;
-        int highTime = 30;
-
-        int lowTradePrice = 50;
-        int highTradePrice = 260;
-
         int startPoint = simulateTradingActivityBrokerOrderId;
         int endPoint = simulateTradingActivityBrokerOrderId + 100;
+
+        SimulateTradeReponse response = new SimulateTradeReponse();
 
         //Start at a high number so the simulated trade order IDs don't interfere with what the user is likely to be doing on front end
         for (int i = startPoint; i < endPoint; i++) {
             Stock randomStock = stockList.get(rand.nextInt(stockList.size() - 1));
 
-            tradingService.executeOrder(i,
+            response.addTrade(tradingService.executeOrder(i,
                     randomStock.getSymbol(),
                     TradingAction.values()[rand.nextInt(1)],
-                    rand.nextInt(highQuantity - lowQuantity) + lowQuantity
-                    , rand.nextInt(highTradePrice - lowTradePrice) + lowTradePrice,
-                    LocalDateTime.now().minusMinutes(rand.nextInt(highTime - lowTime) + lowTime));
+                    rand.nextInt(UPPER_QUANTITY - LOWER_QUANT) + LOWER_QUANT
+                    , rand.nextInt(UPPER_TRADE_PRICE - LOWER_TRADE_PRICE) + LOWER_TRADE_PRICE,
+                    LocalDateTime.now().minusMinutes(rand.nextInt(UPPER_TIME - LOWER_TIME) + LOWER_TIME)));
         }
 
         simulateTradingActivityBrokerOrderId += 100;
+
+        response.setSimulationComplete(LocalDateTime.now());
+        return response;
     }
 }

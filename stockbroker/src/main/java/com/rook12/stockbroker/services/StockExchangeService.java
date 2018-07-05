@@ -7,7 +7,7 @@ public interface StockExchangeService {
     DividendYieldResponse getDividendYield(String stockSymbol, int marketPrice);
     PeRatioResponse getPeRatio(String stockSymbol, int marketPrice);
     TradeResponse executeTrade(int orderId, String stockSymbol, OrderAction action, int quantity, int tradePrice);
-    boolean simulateTrades();
+    SimulateTradeResponse simulateTrades();
     VwspResponse getVwsp(String stockSymbol);
     AllShareIndexResponse getAllShareIndex();
 }

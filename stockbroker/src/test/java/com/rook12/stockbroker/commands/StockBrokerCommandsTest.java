@@ -17,7 +17,7 @@ import static org.mockito.Mockito.when;
 public class StockBrokerCommandsTest {
 
     @Mock
-    StockExchangeService stockExchangeService = Mockito.mock(StockExchangeService.class);
+    private StockExchangeService stockExchangeService = Mockito.mock(StockExchangeService.class);
 
     private StockBrokerCommands stockBrokerCommands = new StockBrokerCommands(stockExchangeService);
 
@@ -85,5 +85,14 @@ public class StockBrokerCommandsTest {
         when(stockExchangeService.getAllShareIndex())
                 .thenReturn(mockResponse);
         assertEquals("12.34", stockBrokerCommands.calculateAllShareIndex());
+    }
+
+    @Test
+    public void simulateTrades() {
+        SimulateTradeResponse mockResponse = new SimulateTradeResponse();
+        mockResponse.setTradeCount(3);
+        when(stockExchangeService.simulateTrades())
+                .thenReturn(mockResponse);
+        assertEquals("finished simulating trades - 3", stockBrokerCommands.simulateTrades());
     }
 }

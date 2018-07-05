@@ -67,10 +67,11 @@ public class StockExchangeServiceImpl implements StockExchangeService {
     }
 
     @Override
-    public boolean simulateTrades() {
-        HttpEntity<Boolean> response = restTemplate.getForEntity(UriComponentsBuilder.fromHttpUrl(
+    public SimulateTradeResponse simulateTrades() {
+        logger.info("simulate trades");
+        HttpEntity<SimulateTradeResponse> response = restTemplate.getForEntity(UriComponentsBuilder.fromHttpUrl(
                 apiBaseUrl + "/simulateTrades").toUriString(),
-                Boolean.class);
+                SimulateTradeResponse.class);
         return response.getBody();
     }
 

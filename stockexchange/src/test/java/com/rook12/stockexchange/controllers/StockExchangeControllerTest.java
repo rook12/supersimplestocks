@@ -102,4 +102,18 @@ public class StockExchangeControllerTest {
         assertEquals(12345, stockExchangeController.executeOrder(request).getBrokerOrderId());
         verify(tradingService).executeOrder(12345, null, null, 0, 0);
     }
+
+    @Test
+    public void simulateTradingActivity() {
+        SimulateTradeReponse simulateTradeReponse = new SimulateTradeReponse();
+        when(tradingSimulationService.simulateTrades()).thenReturn(simulateTradeReponse);
+        TradeBuilder tradeBuilder = new TradeBuilder();
+        simulateTradeReponse.addTrade(tradeBuilder.createTrade());
+        simulateTradeReponse.addTrade(tradeBuilder.createTrade());
+        simulateTradeReponse.addTrade(tradeBuilder.createTrade());
+        simulateTradeReponse.addTrade(tradeBuilder.createTrade());
+
+        assertEquals(4, stockExchangeController.simulateTradingActivity().getTradeCount());
+        verify(tradingSimulationService).simulateTrades();
+    }
 }

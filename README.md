@@ -8,6 +8,7 @@
 - **Couldn't get a PE ratio for TEA (divide by zero dividend). Default to 0? throws exception at the moment**
 - Haven't introduced check preventing same order ID going in more than once
 - Check if I can run more than 100 order without breaking vwsp
+- improve vwsp/all share index calculation
 
 #Example commands
 

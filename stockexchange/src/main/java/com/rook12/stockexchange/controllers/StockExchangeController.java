@@ -64,9 +64,8 @@ public class StockExchangeController {
 
     @GetMapping(path="/simulateTrades")
     public @ResponseBody
-    boolean simulateTradingActivity() {
-        tradingSimulationService.simulateTrades();
-        return true;
+    SimulateTradeReponse simulateTradingActivity() {
+        return tradingSimulationService.simulateTrades();
     }
 
     @PostMapping(path="/executeOrder")

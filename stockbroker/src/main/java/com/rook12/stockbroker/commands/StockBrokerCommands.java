@@ -78,8 +78,8 @@ public class StockBrokerCommands {
 
     @ShellMethod("Instruct stock market to simulate 100 trades with pseudo-random values")
     public String simulateTrades() {
-        exchangeService.simulateTrades();
-        return "finished simulating trades";
+        SimulateTradeResponse simulateTradeResponse = exchangeService.simulateTrades();
+        return "finished simulating trades - " + simulateTradeResponse.getTradeCount();
     }
 
     @ShellMethod("Calculate all share index")
