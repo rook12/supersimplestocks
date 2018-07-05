@@ -1,6 +1,5 @@
 package com.rook12.stockexchange.repositories;
 
-import com.rook12.stockexchange.model.Trade;
 import com.rook12.stockexchange.model.TradeBuilder;
 import com.rook12.stockexchange.model.TradingAction;
 import org.junit.Test;
@@ -8,7 +7,7 @@ import org.junit.Test;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class TradingActivityRepositoryInMemoryImplTest {
 

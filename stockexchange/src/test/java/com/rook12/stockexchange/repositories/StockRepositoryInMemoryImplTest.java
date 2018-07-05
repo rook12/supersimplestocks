@@ -3,7 +3,7 @@ package com.rook12.stockexchange.repositories;
 import com.rook12.stockexchange.model.Stock;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class StockRepositoryInMemoryImplTest {
 

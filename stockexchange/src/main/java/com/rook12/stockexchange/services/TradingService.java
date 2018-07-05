@@ -5,7 +5,6 @@ import com.rook12.stockexchange.dto.CalculateVwspResponse;
 import com.rook12.stockexchange.model.Trade;
 import com.rook12.stockexchange.model.TradingAction;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public interface TradingService {

@@ -1,7 +1,7 @@
 package com.rook12.stockexchange.controllers;
 
-import com.rook12.stockexchange.dto.*;
 import com.rook12.stockexchange.config.StockExchangeConfigurationProperties;
+import com.rook12.stockexchange.dto.*;
 import com.rook12.stockexchange.model.Trade;
 import com.rook12.stockexchange.services.DividendService;
 import com.rook12.stockexchange.services.TradingService;

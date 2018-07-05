@@ -1,7 +1,6 @@
 package com.rook12.stockexchange.services;
 
 import com.rook12.stockexchange.model.Trade;
-import com.rook12.stockexchange.model.TradeBuilder;
 import com.rook12.stockexchange.model.TradingAction;
 import com.rook12.stockexchange.repositories.StockRepositoryInMemoryImpl;
 import com.rook12.stockexchange.repositories.TradingActivityRepository;
@@ -12,7 +11,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
