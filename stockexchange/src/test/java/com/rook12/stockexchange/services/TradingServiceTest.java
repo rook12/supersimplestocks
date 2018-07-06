@@ -89,28 +89,6 @@ public class TradingServiceTest {
     }
 
     @Test
-    @Ignore
-    public void allShareIndexMaths() {
-        double b = 131233424234.0;
-        double d = b/1000;
-
-        double c = Math.exp(b);
-        double e = Math.log(b);
-        //BigDecimal.valueOf("").exp
-        double f = Math.exp(e);
-
-        double g = 300;
-        double h = Math.log10(g);
-        double i = Math.log(g);
-        double j = Math.pow(h, 10);
-        double k = Math.pow(10, h);
-
-        BigDecimal.valueOf(5);
-
-        String a = "";
-    }
-
-    @Test
     public void calculateAllShareIndexLargeSet() {
         bulkOrderExecute2();
         configurationProperties.setGeometricmeanmethod("SIMPLE");
