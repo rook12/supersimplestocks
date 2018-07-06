@@ -46,13 +46,18 @@ Stock Broker is the client program, it provides a shell for you to send commands
 * Technically could have one dividend yield and P/E ratio on stock broker but decided to keep all the calculations on the back end
 * Made Preferred stock a subclass of Common stock as it shares all the same properties (excluding one) and the same functionality (excluding dividend yield calculation). Perhaps would have used decorator or strategy if they diverged more.
 * The BUYing and SELLing of trades doesn't verify whether stocks are available for trading, the system simply records the order
-* Calcultion of the geometric mean in the all share index proved to be problematic: 
+* Calculation of the geometric mean in the all share index proved to be problematic: 
   * Calculation of the product results in some very large numbers. I initially tried to get around this by using BigDecimal. This would hold the product, but there don't appear to be any functions for getting the power of the product if that power value is less than 1 (required for a root calcuation)
   * I changed the product to be a double instead, as that supports power calculations to the power on numbers < 1. This returns an accurate geometric mean up for approximately 100 trades (based on random simulation). After this the number becomes too large 
   * Next I tried getting the product by getting the natural logarithm of each number, then reversing this using exponent after the geometric was calculated. On an example 10 trades, this results in a loss of precision of around 1.3%. However, it works on up to approximately 500 simulated trades.
   * You can switch between the double / log functions by going to application.properties in the stockexchange project. Change:
   ```
     * stockexchange.geometricmeanmethod=SIMPLE to stockexchange.geometricmeanmethod=NATURALLOG
+    
+    or pass it in the command line
+    
+    java -jar stockexchange\target\stockexchange-0.0.1-SNAPSHOT.jar --stockexchange.geometricmeanmethod=NATURALLOG
     ```
+    
 - I was going to implement a store on the broker side to hold client position but never got around to it, hence the empty CustomerAccount and CustomerAccountRepository classes. 
 
