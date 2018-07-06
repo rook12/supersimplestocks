@@ -2,6 +2,8 @@
 
 # Build
 
+Build and run with Java 1.8
+
 Navigate to root directory and run:
 
 mvn clean install
