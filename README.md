@@ -36,8 +36,10 @@ Stock Broker is the client program, it provides a shell for you to send commands
 * execute-trade TEA 100 BUY 2000
 ```
 
-# Notes
+# Notes / Observations
 
+* TEA returns a dividend yield of 0
+* Rounded decimal places to 5
 * Order/Trade are used interchangeably
 * The broker sends an order ID over to the exchange (as a reference from the broker), the exchange sends it's own ID back after the trade is recorded. The exchange keeps a copy of the broker reference as well.
   * Currently a bit brittle (eg if two brokers were open at the same time they'd send the same order ID). If i was doing this again I'd change it to a UUID most likely
