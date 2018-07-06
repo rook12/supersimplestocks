@@ -22,7 +22,7 @@ Stock Exchange is the back end.
 
 Stock Broker is the client program, it provides a shell for you to send commands to the back end. It is based on Spring Shell. Type in help and it will show you all the available commands. Tab completion is available.
 
-#Example commands
+# Example commands
 ```
 * help
 * simulate-trades CONSISTENT
